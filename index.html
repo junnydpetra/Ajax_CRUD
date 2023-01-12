@@ -16,55 +16,55 @@
             <h2 class="text-center card-header">Ajax - CRUD </h2>
             
             <div class="row">
-                <div class="col resp">
-
-                </div>
+                <div class="col resp"></div>
             </div>
             
             <div class="formulario mt-4">
                 <form action="" class="form-group" id="form">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-sm-3">
                             <label class="form-label">Nome</label>
-                            <input type="text" name="nome" id="nome" class="form-control"> 
+                            <input type="text" name="nome" id="nome" class="form-control" placeholder="Informe o nome"> 
                         </div>
                         
-                        <div class="col">
+                        <div class="col-sm-3">
                             <label class="form-label">Email</label>
                             <input type="email" name="email" id="email" class="form-control" placeholder="Informe o email"> 
                         </div>
 
-                        <div class="col">
+                        <div class="col-sm-3">
                             <label for="" class="form-label">Estado</label>
                             <select name="estado" id="estado" class="form-control">
-                                <option value="minas_gerais">Minas Gerais</option>
-                                <option value="sao_paulo">São Pauo</option>
-                                <option value="mato_grosso">Mato Grosso</option>
-                                <option value="goias">Goiás</option>
-                                <option value="parana">Paraná</option>
-                                <option value="santa_catarina">Santa Catarina</option>
+                                <option value="">Estado</option>
+                                <option value="Minas Gerais">Minas Gerais</option>
+                                <option value="São Paulo">São Paulo</option>
+                                <option value="Mato Grosso">Mato Grosso</option>
+                                <option value="Goiás">Goiás</option>
+                                <option value="Paraná">Paraná</option>
+                                <option value="Santa Catarina">Santa Catarina</option>
                             </select>
                         </div>
 
-                        <div class="col">
+                        <div class="col-sm-3">
                             <label for="" class="form-label">CPF</label>
                             <input type="text" name="cpf" id="" placeholder="CPF" class="form-control">
                         </div>
 
+                    </div>
                         <div class="row pt-4">
                             <div class="">
-                                <input type="submit" value="Enviar" id="enviar" class="btn btn-success col-12">
+                                <input type="submit" value="Enviar" id="enviar" class="btn btn-primary col-sm-12">
                             </div>
                         </div>
-                    </div>
 
                 </form>
 
-                <div class="title card-header mt-3">
-                    <h2 class="text-center">
-                        Usuários Cadastrados
-                    </h2>
-                </div>
+            </div>
+            
+            <div class="title card-header mt-3">
+                <h2 class="text-center">
+                    Usuários Cadastrados
+                </h2>
             </div>
 
             <table class="table text-center table-responsive">
@@ -75,15 +75,18 @@
                     <th>CPF</th>
                     <th colspan="2">Opções</th>
                 </thead>
-                <tbody class="align-middle">
+                <tbody class="TB align-middle">
                     <tr>
                         <td>Junnyldo Costa</td>
                         <td>junnycmenezes@gmail.com</td>
                         <td>Paraná</td>
                         <td>05735405357</td>
-                        <td><input type="submit" value="Editar"
-                            class="btn btn-sm btn-success m-1"><input type="submit" value="Exlcuir"
-                            class="btn btn-sm btn-danger mr-1"></td>
+                        <td>
+                            <input type="submit" value="Editar"
+                            class="btn btn-sm btn-success m-1">
+                            <input type="submit" value="Exlcuir"
+                            class="btn btn-sm btn-danger mr-1">
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -94,7 +97,7 @@
         <script>
             $(document).ready(function(){
                 $(document).on('submit', '#form', function(e){
-                    e.preventDefault();
+                    e.preventDefault()
                     $.ajax({
                         url: 'ajax/cadastrar.php',
                         method: 'POST',
@@ -103,8 +106,31 @@
                         cache: false,
                         processData: false
                     }).done(function(data){
-                        alert(data)
-                    });
+                        $(".resp").html(data);
+                    })
+                })
+                function user(){
+                    $.ajax({
+                        url: 'ajax/select.php',
+                        method: 'GET',
+                    }).done(function(data){
+                        $(".TB").html(data);
+                    })
+                }
+                setInterval(user, 1000);
+
+                $(document).on('click', '.edit', function(e){
+                    e.preventDefault();
+                    var id = $(this).attr('id')
+                    $.ajax({
+                        url: 'ajax/select.php',
+                        method: 'POST',
+                        data:{
+                            id: id
+                        }
+                    }).done(function(data){
+                        $(".formulario").html(data);
+                    })
                 })
             })
         </script>
