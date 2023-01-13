@@ -47,7 +47,7 @@
 
                         <div class="col-sm-3">
                             <label for="" class="form-label">CPF</label>
-                            <input type="text" name="cpf" id="" placeholder="CPF" class="form-control">
+                            <input type="text" name="cpf" id="cpf" placeholder="CPF" class="form-control">
                         </div>
 
                     </div>
@@ -119,6 +119,7 @@
                 }
                 setInterval(user, 1000);
 
+                //script de edição
                 $(document).on('click', '.edit', function(e){
                     e.preventDefault();
                     var id = $(this).attr('id')
@@ -130,6 +131,37 @@
                         }
                     }).done(function(data){
                         $(".formulario").html(data);
+                    })
+                })
+
+                //script de exclusão
+                $(document).on('click', '.delete', function(e){
+                    e.preventDefault();
+                    var del = $(this).attr('id')
+                    $.ajax({
+                        url: 'ajax/select.php',
+                        method: 'POST',
+                        data:{
+                            del: del
+                        }
+                    }).done(function(data){
+                        $(".resp").html(data);
+                    })
+                })
+
+                //script de atualização
+                $(document).on('submit', '#update', function(e){
+                    e.preventDefault()
+                    $.ajax({
+                        url: 'ajax/cadastrar.php',
+                        method: 'POST',
+                        data: new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData: false
+
+                    }).done(function(data){
+                        $(".resp").html(data);
                     })
                 })
             })
